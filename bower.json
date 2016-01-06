@@ -1,0 +1,15 @@
+{
+  "name": "backbone.fetchOrQueue",
+  "main": "./backbone.fetchOrQueue.js",
+  "dependencies": {
+    "backbone": "~1.x.x"
+  },
+  "ignore": [
+    "examples",
+    "spec",
+    "package.json",
+    ".travis.yml",
+    "CNAME",
+    "Makefile"
+  ]
+}
