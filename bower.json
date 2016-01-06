@@ -11,5 +11,6 @@
     ".travis.yml",
     "CNAME",
     "Makefile"
-  ]
+  ],
+  "version": "0.0.1"
 }
