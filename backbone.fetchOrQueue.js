@@ -5,7 +5,7 @@ Backbone.Collection.prototype.fetchOrQueue = function(callback, options) {
   var resource = this;
 
   if (resource.loaded && ((Date.now() - resource.loaded.getTime()) < 30*1000)) {
-    if (callback) callback(false, resource);
+    if (callback) setTimeout(function() { callback(false, resource); }, 0);
     return resource;
   }
 
