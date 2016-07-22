@@ -11,29 +11,36 @@ Backbone.Collection.prototype.fetchOrQueue = function(callback, options) {
     }
 
     if (callback) {
+
+        if (!resource._pending_callbacks)
+            resource._pending_callbacks = [];
+        resource._pending_callbacks.push(callback);
+
         if (!resource.fetching) {
 
-        options.success = function() {
-            resource.loaded = new Date();
-            resource.fetching = false;
-            callback(false, resource);
-        };
+            options.success = function() {
+                resource.loaded = new Date();
+                resource.fetching = false;
+                resource._pending_callbacks.map(function(callback){
+                    callback(false, resource);  
+                });
+                delete resource._pending_callbacks;
+            };
 
-        options.error = function() {
-            resource.loaded = false;
-            resource.fetching = false;
-            callback(true);
-        };
+            options.error = function() {
+                resource.loaded = false;
+                resource.fetching = false;
+                resource._pending_callbacks.map(function(callback){
+                    callback(true);
+                });
+                delete resource._pending_callbacks;
+            };
 
-        resource.fetch(options);
-        resource.fetching = true;
-        } else {
-            resource.once('sync', function() {
-                resource.fetchOrQueue(callback, options);
-            });
+            resource.fetch(options);
+            resource.fetching = true;
         }
     }
-  
+      
     return resource;
 };
 
